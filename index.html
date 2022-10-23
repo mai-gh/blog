@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Document</title>
+    <style>
+      body {
+         display: flex;
+  justify-content: center;
+  align-items: stretch;
+      flex-direction: column;
+      }
+      .posts {
+        padding: 50px;
+        border: 2px;
+        border-style: hidden hidden double hidden;
+  display: block;
+  margin-left: auto;
+  margin-bottom: 20px;
+  margin-right: auto;
+        font-family: monospace;
+        white-space: pre;
+         width: 80%
+      }
+    </style>
+  </head>
+  <body>
+    <script src="config.js"></script>
+    <script>
+      const apiDir = `https://api.github.com/repos/${user}/${repo}/contents/${postsPath}`;
+      const apiInfo = `https://api.github.com/repos/${user}/${repo}/commits/path=${postsPath}%2F`;
+      const raw = `https://raw.githubusercontent.com/${user}/${repo}/master/`;
+
+      const get = (url, callback) => {
+        const Http = new XMLHttpRequest();
+        Http.open("GET", url);
+        Http.send();
+        Http.onreadystatechange = (e) => {
+          if (Http.readyState == 4 && Http.status == 200) {
+            callback(Http.responseText);
+          }
+        }
+      }
+
+      const dir = (data) => {
+        files = JSON.parse(data);
+        files.forEach(f => {
+          get(`${raw}/${f.path}`, displayPostCallback)
+        })
+      }
+
+      const displayPostCallback = (postText) => {
+        const postTextNode = document.createTextNode(postText);
+        const postContainer = document.createElement("div");
+        postContainer.classList.add("posts")
+        postContainer.appendChild(postTextNode);
+        document.body.appendChild(postContainer);
+      }
+
+      get(apiDir, dir); 
+      
+    </script>
+  </body>
+</html>
