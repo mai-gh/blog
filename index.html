@@ -26,8 +26,10 @@
   <body>
     <script src="config.js"></script>
     <script>
-      const apiDir = `https://api.github.com/repos/${user}/${repo}/contents/${postsPath}`;
-      const apiInfo = `https://api.github.com/repos/${user}/${repo}/commits/path=${postsPath}%2F`;
+      const user = window.location.hostname.split('.')[0];
+      const repo = window.location.pathname.replaceAll('/', '');
+      const apiDir = `https://api.github.com/repos/${user}/${repo}/contents/posts`;
+      const apiInfo = `https://api.github.com/repos/${user}/${repo}/commits/path=posts%2F`;
       const raw = `https://raw.githubusercontent.com/${user}/${repo}/master/`;
 
       const get = (url, callback) => {
