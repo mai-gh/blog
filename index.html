@@ -57,6 +57,8 @@
         for (let i = 0; i < files.length; i++) {
           postsArray.push({name: files[i].name})
           get(`${raw}/${files[i].path}`, ( x => {postsArray[i].content = x}) )
+          
+
 //          get(`${apiInfo}${files[i].name}`, ( x => {
 //            const c = JSON.parse(x);
 //            postsArray[i].editDate = c[0].commit.author.date;
@@ -73,7 +75,6 @@
           console.log(i, postsArray[i]);
           displayPostCallback(postsArray[i].content);
         }
-
       }
 
       const displayPostCallback = (postText) => {
@@ -84,7 +85,21 @@
         document.body.appendChild(postContainer);
       }
 
-      get(apiDir, dirListCallback(postsArray)); 
+      get(apiDir, (ps => dirListing => {
+        console.log('ps', ps);
+        console.log('dirListing', dirListing); 
+        const files = JSON.parse(dirListing);
+        console.log('files', files);
+        files.forEach(f => {
+          get(`${raw}/${f.path}`, (t => {
+            const postTextNode = document.createTextNode(t);
+            const postContainer = document.createElement("div");
+            postContainer.classList.add("posts")
+            postContainer.appendChild(postTextNode);
+            document.body.appendChild(postContainer);
+          }))
+        })
+      })(postsArray)); 
       
     </script>
   </body>

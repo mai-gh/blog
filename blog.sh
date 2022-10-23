@@ -32,6 +32,7 @@ case $CMD in
       exit 1
     fi
     date > posts/${TITLE}.txt
+    echo $TITLE >> posts/${TITLE}.txt
     vim posts/${TITLE}.txt
     ;;
 
