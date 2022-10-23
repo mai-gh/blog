@@ -1,1 +1,3 @@
-https://mai-gh.github.io/blog/
+| |
+| :-: |
+| https://mai-gh.github.io/blog/ |
