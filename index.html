@@ -24,12 +24,18 @@
     </style>
   </head>
   <body>
-    <script src="config.js"></script>
     <script>
-      const user = window.location.hostname.split('.')[0];
-      const repo = window.location.pathname.replaceAll('/', '');
+      //const user = window.location.hostname.split('.')[0];
+      //const repo = window.location.pathname.replaceAll('/', '');
+      const user = 'mai-gh';
+      const repo = 'blog';
+
+      window.loading = true;
+  
+      const postsArray = [];
+
       const apiDir = `https://api.github.com/repos/${user}/${repo}/contents/posts`;
-      const apiInfo = `https://api.github.com/repos/${user}/${repo}/commits/path=posts%2F`;
+      const apiInfo = `https://api.github.com/repos/${user}/${repo}/commits?path=posts%2F`;
       const raw = `https://raw.githubusercontent.com/${user}/${repo}/master/`;
 
       const get = (url, callback) => {
@@ -43,11 +49,31 @@
         }
       }
 
-      const dir = (data) => {
-        files = JSON.parse(data);
-        files.forEach(f => {
-          get(`${raw}/${f.path}`, displayPostCallback)
-        })
+      const dirListCallback = (postsArray) => (dirListing) => {
+        console.log('postsArray', postsArray);
+        console.log('dirListing', dirListing); 
+        const files = JSON.parse(dirListing);
+//        const displayPostCallback = mkDisplayPostCallback(files.length);
+        for (let i = 0; i < files.length; i++) {
+          postsArray.push({name: files[i].name})
+          get(`${raw}/${files[i].path}`, ( x => {postsArray[i].content = x}) )
+//          get(`${apiInfo}${files[i].name}`, ( x => {
+//            const c = JSON.parse(x);
+//            postsArray[i].editDate = c[0].commit.author.date;
+//            postsArray[i].postDate = c[c.length - 1].commit.author.date;
+//            postsArray[i].author = c[c.length - 1].commit.author.name;
+//          }))        
+        }
+
+        // now sort posts
+
+        // now display them
+
+        for (let i = 0; i < postsArray.length; i++) {
+          console.log(i, postsArray[i]);
+          displayPostCallback(postsArray[i].content);
+        }
+
       }
 
       const displayPostCallback = (postText) => {
@@ -58,7 +84,7 @@
         document.body.appendChild(postContainer);
       }
 
-      get(apiDir, dir); 
+      get(apiDir, dirListCallback(postsArray)); 
       
     </script>
   </body>
