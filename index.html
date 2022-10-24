@@ -3,23 +3,23 @@
   <head>
     <title>Document</title>
     <style>
-      body {
-         display: flex;
-  justify-content: center;
-  align-items: stretch;
-      flex-direction: column;
+      #postsList {
+        display: flex;
+        justify-content: center;
+        align-items: stretch;
+        flex-direction: column;
       }
-      .posts {
+      .individualPost {
         padding: 50px;
         border: 2px;
         border-style: hidden hidden double hidden;
-  display: block;
-  margin-left: auto;
-  margin-bottom: 20px;
-  margin-right: auto;
+        display: block;
+        margin-left: auto;
+        margin-bottom: 20px;
+        margin-right: auto;
         font-family: monospace;
         white-space: pre;
-         width: 80%
+        width: 80%
       }
     </style>
   </head>
@@ -30,13 +30,10 @@
       const user = 'mai-gh';
       const repo = 'blog';
 
-      window.loading = true;
   
-      const postsArray = [];
 
       const apiDir = `https://api.github.com/repos/${user}/${repo}/contents/posts`;
-      const apiInfo = `https://api.github.com/repos/${user}/${repo}/commits?path=posts%2F`;
-      const raw = `https://raw.githubusercontent.com/${user}/${repo}/master/`;
+      const raw = `https://raw.githubusercontent.com/${user}/${repo}/master`;
 
       const get = (url, callback) => {
         const Http = new XMLHttpRequest();
@@ -49,58 +46,35 @@
         }
       }
 
-      const dirListCallback = (postsArray) => (dirListing) => {
-        console.log('postsArray', postsArray);
-        console.log('dirListing', dirListing); 
+      get(apiDir, (dirListing => {
         const files = JSON.parse(dirListing);
-//        const displayPostCallback = mkDisplayPostCallback(files.length);
-        for (let i = 0; i < files.length; i++) {
-          postsArray.push({name: files[i].name})
-          get(`${raw}/${files[i].path}`, ( x => {postsArray[i].content = x}) )
-          
-
-//          get(`${apiInfo}${files[i].name}`, ( x => {
-//            const c = JSON.parse(x);
-//            postsArray[i].editDate = c[0].commit.author.date;
-//            postsArray[i].postDate = c[c.length - 1].commit.author.date;
-//            postsArray[i].author = c[c.length - 1].commit.author.name;
-//          }))        
-        }
-
-        // now sort posts
-
-        // now display them
-
-        for (let i = 0; i < postsArray.length; i++) {
-          console.log(i, postsArray[i]);
-          displayPostCallback(postsArray[i].content);
-        }
-      }
-
-      const displayPostCallback = (postText) => {
-        const postTextNode = document.createTextNode(postText);
-        const postContainer = document.createElement("div");
-        postContainer.classList.add("posts")
-        postContainer.appendChild(postTextNode);
-        document.body.appendChild(postContainer);
-      }
-
-      get(apiDir, (ps => dirListing => {
-        console.log('ps', ps);
-        console.log('dirListing', dirListing); 
-        const files = JSON.parse(dirListing);
-        console.log('files', files);
-        files.forEach(f => {
-          get(`${raw}/${f.path}`, (t => {
+        const postsListDiv = document.getElementById('postsList');
+        for (let i = 0; i < files.length; i++)  {
+          get(`${raw}/${files[i].path}`, (t => {
+            files[i].content = t
+            files[i].date = new Date(t.split('\n', 1)[0]);
             const postTextNode = document.createTextNode(t);
             const postContainer = document.createElement("div");
-            postContainer.classList.add("posts")
+            postContainer.classList.add("individualPost")
             postContainer.appendChild(postTextNode);
-            document.body.appendChild(postContainer);
+            if (i === 0) {
+              postsListDiv.appendChild(postContainer);
+            } else {
+              for (let j = 0; j < postsListDiv.children.length; j++) {
+               console.log('i', i, 'j', j, 'postsListDiv.children.length', postsListDiv.children.length, 'files[i].date', files[i].date);
+               if (files[i].date > new Date(postsListDiv.children[j].textContent.split('\n', 1)[0])) {
+                 postsListDiv.insertBefore(postContainer, postsListDiv.children[j]);
+                 break;
+               } else if (j === postsListDiv.children.length - 1) {
+                 postsListDiv.appendChild(postContainer);
+               }
+              }
+            }
           }))
-        })
-      })(postsArray)); 
-      
+        }
+      })); 
+
     </script>
+    <div id="postsList"></div>
   </body>
 </html>
