@@ -3,7 +3,12 @@
   <head>
     <title>Document</title>
     <style>
-      #postsList {
+      .banner {
+          margin: auto;
+  width: 50%;
+  padding: 10px;
+      }
+      #postsList .banner {
         display: flex;
         justify-content: center;
         align-items: stretch;
@@ -24,6 +29,13 @@
     </style>
   </head>
   <body>
+    <div class="banner">
+      <div>
+        <h1>Mai Atwell's Blog</h1>
+        <h5>Just some notes on my tech experiences</h5>
+      </div>  
+    </div>
+
     <script>
       //const user = window.location.hostname.split('.')[0];
       //const repo = window.location.pathname.replaceAll('/', '');
@@ -57,7 +69,6 @@
               postsListDiv.appendChild(postContainer);
             } else {
               for (let j = 0; j < postsListDiv.children.length; j++) {
-//               console.log('i', i, 'j', j, 'postsListDiv.children.length', postsListDiv.children.length);
                if (new Date(t.split('\n', 1)[0]) > new Date(postsListDiv.children[j].textContent.split('\n', 1)[0])) {
                  postsListDiv.insertBefore(postContainer, postsListDiv.children[j]);
                  break;
