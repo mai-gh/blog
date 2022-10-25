@@ -1,13 +1,4 @@
-# liʻiliʻi
-
-### a minimalist microbloging framework based around git and plain text files
+<p align="center"><a href="https://mai-gh.github.io/blog/">https://mai-gh.github.io/blog/</a></p>
 
 
-## Setup
-
- 1. [fork this repo](https://github.com/mai-gh/li-ili-i/fork)
- 2. create a new github repo for posts
- 3. clone this repo
- 4. add your posts repo as a submodule
- 
-
+<p align="center">Assembled with <a href="https://github.com/mai-gh/li-ili-i">liʻiliʻi</a></p>
