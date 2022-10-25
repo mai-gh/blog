@@ -34,6 +34,7 @@ case $CMD in
     date > posts/${TITLE}.txt
     echo $TITLE >> posts/${TITLE}.txt
     vim posts/${TITLE}.txt
+    node build.js 
     ;;
 
   edit)
@@ -47,6 +48,7 @@ case $CMD in
       exit 1
     fi
     vim posts/${TITLE}.txt
+    node build.js 
     ;;
 
   list)

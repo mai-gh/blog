@@ -1,0 +1,24 @@
+Tue Oct 25 09:13:41 AM EDT 2022
+Project Overhaul
+
+
+I originally designed this blog to retrieve posts via github api / raw links and
+use client side javascript to "fetch" and render them. I changed my mind on this
+approach in favor of commit time injection to create a static site. Ultimately
+this guarantees clients will not have bugs, and the site will load faster, and
+that github api cant gatekeep me. This is accomplished using nodeJS and the
+jsdom library. jsdom makes it easy to manipulate a html file just like you would
+with front-end code, then just save the rusulting html code as a static site.
+
+planned features coming soon:
+
+ - very minimal markup syntax for links and images and possibly videos
+ - stylized subject and dates
+ - a footer ;-P
+ - pagination
+
+I want to keep this "framework" as minimal and tight as possible, so probably
+not much more will be considered, unless it really makes my life easier at
+little to no cost.
+
+Cheers!
