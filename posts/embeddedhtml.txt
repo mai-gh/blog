@@ -1,0 +1,6 @@
+Tue Oct 25 02:01:18 PM EDT 2022
+<h2>Markup Support!</h2>
+
+<a href="https://en.wiktionary.org/wiki/%CA%BBiole_li%CA%BBili%CA%BBi"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Xfce_logo-footprint.svg/176px-Xfce_logo-footprint.svg.png"/></a>
+
+embedded html is now supported in the plain text posts
