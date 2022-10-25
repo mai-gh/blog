@@ -1,7 +1,0 @@
-Mon Oct 24 11:41:57 AM EDT 2022
-Hello World!
-
-First Post on this ultra minimal blogging setup!
-
-Check out the readme.md in the repo to read about how this blogging software
-was designed and implemented.
