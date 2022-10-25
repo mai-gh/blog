@@ -1,17 +1,10 @@
 {
-  "name": "blog",
-  "version": "1.0.0",
-  "description": "<p align=\"center\">https://mai-gh.github.io/blog/</p>",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+  "name": "liʻiliʻ",
+  "description": "a minimalist microbloging framework based around git and plain text files",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/mai-gh/blog.git"
   },
-  "author": "",
-  "license": "ISC",
   "bugs": {
     "url": "https://github.com/mai-gh/blog/issues"
   },
