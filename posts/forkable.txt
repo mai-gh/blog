@@ -7,7 +7,7 @@ I have now moved all the non-personal parts of this framework to now be forkable
 
 Introducing li-ili-i
 
-https://mai-gh.github.io/li-ili-i/
+https://github.com/mai-gh/li-ili-i
 
 The name liʻiliʻi comes from me searching for other workds to minimal.
 
