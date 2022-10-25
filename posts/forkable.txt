@@ -1,5 +1,5 @@
 Tue Oct 25 01:08:46 PM EDT 2022
-This project is now forkable!
+<h2>This project is now forkable!</h2>
 
 
 
@@ -7,7 +7,7 @@ I have now moved all the non-personal parts of this framework to now be forkable
 
 Introducing li-ili-i
 
-https://github.com/mai-gh/li-ili-i
+<a href=https://github.com/mai-gh/li-ili-i>https://github.com/mai-gh/li-ili-i</a>
 
 The name liʻiliʻi comes from me searching for other words for minimal.
 
