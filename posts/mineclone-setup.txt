@@ -1,0 +1,64 @@
+Thu Oct 27 05:01:51 PM EDT 2022
+<h2>Mineclone2 Server Setup</h2>
+
+
+this is the steps I used to set up my a mineclone2 server on our local
+rasberrypi home server. I wish it could be more straight-forward and actually
+have good documentation for this, but well... this si what i got working.
+
+I will edit this post as the process becomes better
+
+
+<b>on player pc</b>
+<pre><code>
+# pacman -Sy minetest
+$ minetest
+  ~ select content --> browse online content --> mineclone2 "+" icon
+  ~ let download
+  ~ back to main menu
+  ~ start game
+  ~ at bottom you will see 3 icons, if you hover mouse over them one will
+    say mineclone2, click on it
+  ~ new
+  ~ worldname = world
+  ~ create
+  ~ playgame
+  ~ let load
+  ~ esc -> exit to os
+  ~ ok we have a world
+$ cd ~
+$ scp -r .minetest alarm@pi.lan:/home/alarm/
+
+$ ssh alarm@pi.lan
+$ su root
+# pacman -Rs minetest minetest-common minetest-server minetest-mineclone2
+# rm -rf /var/lib/minetest
+# pacman -Sy minetest-server
+# exit
+
+$ /usr/bin/minetestserver --gameid mineclone2 --world world
+  ~ if it segfaults, try again ;-P
+
+$ su
+# cat << EOF > /etc/systemd/system/mineclone.conf
+[Unit]
+Description=Miceclone2 multiplayer server
+After=syslog.target network.target
+
+[Service]
+User=alarm
+ExecStart=/usr/bin/minetestserver --gameid mineclone2 --world /home/alarm/.minetest/worlds/world
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+# systemctl start mineclone; sleep 5s; systemctl status mineclone
+  ~ if no errors, enable it
+# systemctl enable mineclone
+
+
+
+</code></pre>
+
+
