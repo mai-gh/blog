@@ -10,7 +10,7 @@ commit at a time over at <a href="https://github.com/mai-gh/canv">https://github
 
 Cheers!
 
-    <canvas id='canvas' width="200" height="200" style="border:solid" />
+    <canvas id='canvas_2022-10-31_A' width="200" height="200" style="border:solid" />
 
 
     <script>
@@ -21,7 +21,7 @@ Cheers!
       let secondsPassed;
       let oldTimeStamp = 0;
       let fps;
-      const canvas = document.getElementById('canvas');
+      const canvas = document.getElementById('canvas_2022-10-31_A');
       canvas.style.cursor = 'none';
       const ctx = canvas.getContext('2d');
       ctx.save();
