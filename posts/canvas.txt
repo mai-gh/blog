@@ -1,0 +1,77 @@
+Mon Oct 31 10:24:59 PM EDT 2022
+<h2>Canvas</h2>
+
+So I'm trying some experiments with html canvas, and it occurred to me that I
+could embed some of my little successes in this blog since I can embed any html
+element into a post... so lets try it: (hover your cursor in the box below)
+
+I have a lot of bigger plans for canvas stuff, and I am saving my progress, one git
+commit at a time over at <a href="https://github.com/mai-gh/canv">https://github.com/mai-gh/canv</a>
+
+Cheers!
+
+    <canvas id='canvas' width="200" height="200" style="border:solid" />
+
+
+    <script>
+      let colorBool = true;
+      let counter = 0;
+      const rotateAmount = (Math.PI / 6);
+      let rotatePos = 0;
+      let secondsPassed;
+      let oldTimeStamp = 0;
+      let fps;
+      const canvas = document.getElementById('canvas');
+      canvas.style.cursor = 'none';
+      const ctx = canvas.getContext('2d');
+      ctx.save();
+      ctx.translate(300, 300);
+
+      const cursor = {
+        x: (innerWidth / 2),
+        y: (innerHeight / 2),
+      };
+
+
+
+      addEventListener("mousemove", (e) => {
+        cursor.x = e.clientX - canvas.getBoundingClientRect().left;
+        cursor.y = e.clientY - canvas.getBoundingClientRect().top;
+
+      });
+
+      const draw = async (timeStamp) => {
+        secondsPassed = (timeStamp - oldTimeStamp) / 1000;
+        oldTimeStamp = timeStamp;
+
+        ctx.setTransform(1, 0, 0, 1, 0, 0); // reset translation instead of save
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        fps = Math.round(1 / secondsPassed);
+        ctx.font = '16px Sans-serif';
+        ctx.strokeStyle = 'black';
+        ctx.lineWidth = 8;
+        ctx.strokeText(fps + "fps", 10, 30);
+        ctx.fillStyle = 'white';
+        ctx.fillText(fps + "fps", 10, 30);
+        ctx.setTransform(1, 0, 0, 1, 0, 0); // reset translation instead of save
+        ctx.lineWidth = 1;
+        ctx.strokeStyle = "white"
+        ctx.setTransform(1, 0, 0, 1, 0, 0); // reset translation instead of save
+        ctx.translate(cursor.x, cursor.y);
+        if ( counter === 11 ) {
+          counter = 0
+          rotatePos = 0;
+        } else {
+          counter++;
+        }
+        ctx.beginPath();
+        rotatePos = rotatePos + rotateAmount;
+        ctx.rotate(rotatePos);
+        ctx.moveTo(0, -24);
+        ctx.lineTo(0, -32);
+        ctx.stroke();
+        window.requestAnimationFrame(draw);
+      }
+      window.requestAnimationFrame(draw);
+    </script>
+
