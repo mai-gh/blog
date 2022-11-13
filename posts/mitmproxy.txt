@@ -1,0 +1,18 @@
+Sun Nov 13 04:27:31 PM EST 2022
+<h2>mitmproxy</h2>
+
+I had a need to inspect https requests from a some program... and while with
+firefox and chrome you can set the environment variable (SSLKEYLOGFILE=/tmp/log)
+I needed this for a program that you couldnt do this for.
+
+
+enter mitmproxy:
+
+# pacman -S mitmproxy
+$ mitmweb
+# trust anchor --store /home/mai/.mitmproxy/mitmproxy-ca-cert.cer
+# update-ca-trust
+$ export http_proxy='127.0.0.1:8080'
+$ export https_proxy='127.0.0.1:8080'
+$ chromium http://127.0.0.1:8081/
+$ ./whatever_you_want_to_monitor
