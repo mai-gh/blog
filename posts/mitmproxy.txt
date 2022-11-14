@@ -16,3 +16,6 @@ $ export http_proxy='127.0.0.1:8080'
 $ export https_proxy='127.0.0.1:8080'
 $ chromium http://127.0.0.1:8081/
 $ ./whatever_you_want_to_monitor
+
+to remove this certificate authority:
+# trust anchor --remove /home/mai/.mitmproxy/mitmproxy-ca-cert.cer
