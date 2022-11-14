@@ -1,5 +1,5 @@
+Mineclone2 Server Setup
 Thu Oct 27 05:01:51 PM EDT 2022
-<h2>Mineclone2 Server Setup</h2>
 
 
 this is the steps I used to set up my a mineclone2 server on our local

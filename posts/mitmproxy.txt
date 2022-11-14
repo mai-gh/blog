@@ -1,5 +1,5 @@
+mitmproxy
 Sun Nov 13 04:27:31 PM EST 2022
-<h2>mitmproxy</h2>
 
 I had a need to inspect https requests from a some program... and while with
 firefox and chrome you can set the environment variable (SSLKEYLOGFILE=/tmp/log)

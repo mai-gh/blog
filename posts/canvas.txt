@@ -1,5 +1,5 @@
+Canvas
 Mon Oct 31 10:24:59 PM EDT 2022
-<h2>Canvas</h2>
 
 So I'm trying some experiments with html canvas, and it occurred to me that I
 could embed some of my little successes in this blog since I can embed any html

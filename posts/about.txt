@@ -1,5 +1,5 @@
+About this place
 Mon Oct 24 11:47:32 AM EDT 2022
-<h2>About this place</h2>
 
 On this blog I will be journaling my developer experience, both professionally,
 and personally. I will be using this space to write about interests, ideas,
