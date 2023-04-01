@@ -1,0 +1,94 @@
+OpenWRT isolated guest AP setup
+Sat Apr  1 03:14:27 PM EDT 2023
+
+
+I have a router that runs <a href='https://librecmc.org/'>LibreCMC</a> which is
+basically just a <a href="https://en.wikipedia.org/wiki/Binary_blob">blob</a> free version
+of <a href='https://openwrt.org/'>OpenWRT</a>
+
+The thing is I *hate* its hand holding tools, and much prefer configuring
+the text files via ssh
+
+
+this post is mostly a re-write of the following guilde but just only showing the
+the relevant info to put into your configuration files
+
+https://openwrt.org/docs/guide-user/network/wifi/guestwifi/guest-wlan
+
+
+
+
+tar cvzf backup.tgz /etc/config
+
+
+vim /etc/config/network
+<pre style="border: 1px solid">
+config device 'guest_dev'
+        option type 'bridge'
+        option name 'br-guest'
+
+
+config interface 'guest'
+        option proto 'static'
+        option device 'br-guest'
+        option ipaddr '192.168.11.1'
+        option netmask '255.255.255.0'
+</pre>
+
+
+vim /etc/config/wireless
+<pre style="border: 1px solid">
+config wifi-iface 'guest'
+        option device 'radio0'
+        option mode 'ap'
+        option network 'guest'
+        option ssid 'LibreCMC--Guest'
+        option encryption 'psk'
+        option key 'whatever_you_want'
+        option isolate '1'
+</pre>
+
+
+vim /etc/config/dhcp
+<pre style="border: 1px solid">
+config dhcp 'guest'
+        option interface 'guest'
+        option start '100'
+        option limit '150'
+        option leasetime '1h'
+        option netmast '255.255.255.0'
+</pre>
+
+
+vim /etc/config/firewall
+<pre style="border: 1px solid">
+config zone 'guest'
+        option name 'guest'
+        option network 'guest'
+        option input 'REJECT'
+        option output 'ACCEPT'
+        option forward 'REJECT'
+
+config forwarding 'guest_wan'
+        option src 'guest'
+        option dest 'wan'
+
+config rule 'guest_dest'
+        option name 'Allow-DNS-Guest'
+        option src 'guest'
+        option dest_port '53'
+        option proto 'tcp udp'
+        option target 'ACCEPT'
+
+config rule 'guest_dhcp'
+        option name 'Allow-DHCP-Guest'
+        option src 'guest'
+        option src_port '68'
+        option dest_port '67'
+        option proto 'udp'
+        option family 'ipv4'
+        option target 'ACCEPT'
+</pre>
+
+
+reboot and try it out!
