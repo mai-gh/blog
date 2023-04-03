@@ -22,7 +22,7 @@ tar cvzf backup.tgz /etc/config
 
 
 vim /etc/config/network
-<pre style="border: 1px solid">
+<pre style="border: 1px solid; display: inline-block; padding: 10px;">
 config device 'guest_dev'
         option type 'bridge'
         option name 'br-guest'
@@ -37,7 +37,7 @@ config interface 'guest'
 
 
 vim /etc/config/wireless
-<pre style="border: 1px solid">
+<pre style="border: 1px solid; display: inline-block; padding: 10px;">
 config wifi-iface 'guest'
         option device 'radio0'
         option mode 'ap'
@@ -50,7 +50,7 @@ config wifi-iface 'guest'
 
 
 vim /etc/config/dhcp
-<pre style="border: 1px solid">
+<pre style="border: 1px solid; display: inline-block; padding: 10px;">
 config dhcp 'guest'
         option interface 'guest'
         option start '100'
@@ -61,7 +61,7 @@ config dhcp 'guest'
 
 
 vim /etc/config/firewall
-<pre style="border: 1px solid">
+<pre style="border: 1px solid; display: inline-block; padding: 10px;">
 config zone 'guest'
         option name 'guest'
         option network 'guest'
