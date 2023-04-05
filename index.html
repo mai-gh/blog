@@ -1,1 +1,377 @@
-li-ili-i/index.html
+<!DOCTYPE html><html><head>
+    <title>Mai's Blog</title>
+    <style>
+      body {
+        color: #fff;
+        background-color: #110f14;
+      }
+      .header, .footer {
+        margin: auto;
+        width: 50%;
+        padding: 10px;
+      }
+      #postsList .banner {
+        display: flex;
+        justify-content: center;
+        align-items: stretch;
+        flex-direction: column;
+      }
+      .individualPost {
+        padding: 50px;
+        border: 2px;
+        border-style: hidden hidden double hidden;
+        display: block;
+        margin-left: auto;
+        margin-bottom: 20px;
+        margin-right: auto;
+        font-family: monospace;
+        white-space: pre;
+        width: 80%
+      }
+    </style>
+  </head>
+  <body>
+
+    <div class="header">
+      <div>
+        <h1>Mai's Blog</h1>
+        <h5>Just some notes on my tech experiences</h5>
+      </div>  
+    </div>
+
+    <div id="postsList"><div class="individualPost" id="ttttt"><div><a href="#ttttt"><h2>ttttt</h2></a>Wednesday, April 5, 2023 at 18:23 EDT</div>
+
+sadasd
+asd
+as
+d
+as
+d
+as
+d
+asd
+as
+d
+as
+d
+asd
+as
+d
+as
+d
+
+</div><div class="individualPost" id="openwrt-isolated-guest-ap"><div><a href="#openwrt-isolated-guest-ap"><h2>OpenWRT isolated guest AP setup</h2></a>Saturday, April 1, 2023 at 15:14 EDT</div>
+
+I have a router that runs <a href="https://librecmc.org/">LibreCMC</a> which is
+basically just a <a href="https://en.wikipedia.org/wiki/Binary_blob">blob</a> free version
+of <a href="https://openwrt.org/">OpenWRT</a>
+
+The thing is I *hate* its hand holding tools, and much prefer configuring
+the text files via ssh
+
+
+this post is mostly a re-write of the following guilde but just only showing the
+the relevant info to put into your configuration files
+
+https://openwrt.org/docs/guide-user/network/wifi/guestwifi/guest-wlan
+
+
+
+
+tar cvzf backup.tgz /etc/config
+
+
+vim /etc/config/network
+<pre style="border: 1px solid; display: inline-block; padding: 10px;">config device 'guest_dev'
+        option type 'bridge'
+        option name 'br-guest'
+
+
+config interface 'guest'
+        option proto 'static'
+        option device 'br-guest'
+        option ipaddr '192.168.11.1'
+        option netmask '255.255.255.0'
+</pre>
+
+
+vim /etc/config/wireless
+<pre style="border: 1px solid; display: inline-block; padding: 10px;">config wifi-iface 'guest'
+        option device 'radio0'
+        option mode 'ap'
+        option network 'guest'
+        option ssid 'LibreCMC--Guest'
+        option encryption 'psk'
+        option key 'whatever_you_want'
+        option isolate '1'
+</pre>
+
+
+vim /etc/config/dhcp
+<pre style="border: 1px solid; display: inline-block; padding: 10px;">config dhcp 'guest'
+        option interface 'guest'
+        option start '100'
+        option limit '150'
+        option leasetime '1h'
+        option netmast '255.255.255.0'
+</pre>
+
+
+vim /etc/config/firewall
+<pre style="border: 1px solid; display: inline-block; padding: 10px;">config zone 'guest'
+        option name 'guest'
+        option network 'guest'
+        option input 'REJECT'
+        option output 'ACCEPT'
+        option forward 'REJECT'
+
+config forwarding 'guest_wan'
+        option src 'guest'
+        option dest 'wan'
+
+config rule 'guest_dest'
+        option name 'Allow-DNS-Guest'
+        option src 'guest'
+        option dest_port '53'
+        option proto 'tcp udp'
+        option target 'ACCEPT'
+
+config rule 'guest_dhcp'
+        option name 'Allow-DHCP-Guest'
+        option src 'guest'
+        option src_port '68'
+        option dest_port '67'
+        option proto 'udp'
+        option family 'ipv4'
+        option target 'ACCEPT'
+</pre>
+
+
+reboot and try it out!
+</div><div class="individualPost" id="anchors"><div><a href="#anchors"><h2>Post Title Anchor Links</h2></a>Monday, November 14, 2022 at 16:40 EST</div>
+Post titles have been reformatted in li-ili-i and now we also have ability to
+permalink specific posts with id anchors
+
+<a href="#helloworld">check it out</a>
+</div><div class="individualPost" id="mitmproxy"><div><a href="#mitmproxy"><h2>mitmproxy</h2></a>Sunday, November 13, 2022 at 16:27 EST</div>
+I had a need to inspect https requests from a some program... and while with
+firefox and chrome you can set the environment variable (SSLKEYLOGFILE=/tmp/log)
+I needed this for a program that you couldnt do this for.
+
+
+enter mitmproxy:
+
+# pacman -S mitmproxy
+$ mitmweb
+# trust anchor --store /home/mai/.mitmproxy/mitmproxy-ca-cert.cer
+# update-ca-trust
+$ export http_proxy='127.0.0.1:8080'
+$ export https_proxy='127.0.0.1:8080'
+$ chromium http://127.0.0.1:8081/
+$ ./whatever_you_want_to_monitor
+
+to remove this certificate authority:
+# trust anchor --remove /home/mai/.mitmproxy/mitmproxy-ca-cert.cer
+</div><div class="individualPost" id="canvas"><div><a href="#canvas"><h2>Canvas</h2></a>Monday, October 31, 2022 at 22:24 EDT</div>
+So I'm trying some experiments with html canvas, and it occurred to me that I
+could embed some of my little successes in this blog since I can embed any html
+element into a post... so lets try it: (hover your cursor in the box below)
+
+I have a lot of bigger plans for canvas stuff, and I am saving my progress, one git
+commit at a time over at <a href="https://github.com/mai-gh/canv">https://github.com/mai-gh/canv</a>
+
+Cheers!
+
+    <canvas id="canvas_2022-10-31_A" width="200" height="200" style="border:solid">
+
+
+    <script>
+      let colorBool = true;
+      let counter = 0;
+      const rotateAmount = (Math.PI / 6);
+      let rotatePos = 0;
+      let secondsPassed;
+      let oldTimeStamp = 0;
+      let fps;
+      const canvas = document.getElementById('canvas_2022-10-31_A');
+      canvas.style.cursor = 'none';
+      const ctx = canvas.getContext('2d');
+      ctx.save();
+      ctx.translate(300, 300);
+
+      const cursor = {
+        x: (innerWidth / 2),
+        y: (innerHeight / 2),
+      };
+
+
+
+      addEventListener("mousemove", (e) => {
+        cursor.x = e.clientX - canvas.getBoundingClientRect().left;
+        cursor.y = e.clientY - canvas.getBoundingClientRect().top;
+
+      });
+
+      const draw = async (timeStamp) => {
+        secondsPassed = (timeStamp - oldTimeStamp) / 1000;
+        oldTimeStamp = timeStamp;
+
+        ctx.setTransform(1, 0, 0, 1, 0, 0); // reset translation instead of save
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        fps = Math.round(1 / secondsPassed);
+        ctx.font = '16px Sans-serif';
+        ctx.strokeStyle = 'black';
+        ctx.lineWidth = 8;
+        ctx.strokeText(fps + "fps", 10, 30);
+        ctx.fillStyle = 'white';
+        ctx.fillText(fps + "fps", 10, 30);
+        ctx.setTransform(1, 0, 0, 1, 0, 0); // reset translation instead of save
+        ctx.lineWidth = 1;
+        ctx.strokeStyle = "white"
+        ctx.setTransform(1, 0, 0, 1, 0, 0); // reset translation instead of save
+        ctx.translate(cursor.x, cursor.y);
+        if ( counter === 11 ) {
+          counter = 0
+          rotatePos = 0;
+        } else {
+          counter++;
+        }
+        ctx.beginPath();
+        rotatePos = rotatePos + rotateAmount;
+        ctx.rotate(rotatePos);
+        ctx.moveTo(0, -24);
+        ctx.lineTo(0, -32);
+        ctx.stroke();
+        window.requestAnimationFrame(draw);
+      }
+      window.requestAnimationFrame(draw);
+    </script>
+
+</canvas></div><div class="individualPost" id="mineclone-setup"><div><a href="#mineclone-setup"><h2>Mineclone2 Server Setup</h2></a>Thursday, October 27, 2022 at 17:01 EDT</div>
+
+this is the steps I used to set up my a mineclone2 server on our local
+rasberrypi home server. I wish it could be more straight-forward and actually
+have good documentation for this, but well... this si what i got working.
+
+I will edit this post as the process becomes better
+
+
+<b>on player pc</b>
+<pre><code>
+# pacman -Sy minetest
+$ minetest
+  ~ select content --&gt; browse online content --&gt; mineclone2 "+" icon
+  ~ let download
+  ~ back to main menu
+  ~ start game
+  ~ at bottom you will see 3 icons, if you hover mouse over them one will
+    say mineclone2, click on it
+  ~ new
+  ~ worldname = world
+  ~ create
+  ~ playgame
+  ~ let load
+  ~ esc -&gt; exit to os
+  ~ ok we have a world
+$ cd ~
+$ scp -r .minetest alarm@pi.lan:/home/alarm/
+
+$ ssh alarm@pi.lan
+$ su root
+# pacman -Rs minetest minetest-common minetest-server minetest-mineclone2
+# rm -rf /var/lib/minetest
+# pacman -Sy minetest-server
+# exit
+
+$ /usr/bin/minetestserver --gameid mineclone2 --world world
+  ~ if it segfaults, try again ;-P
+
+$ su
+# cat &lt;&lt; EOF &gt; /etc/systemd/system/mineclone.conf
+[Unit]
+Description=Miceclone2 multiplayer server
+After=syslog.target network.target
+
+[Service]
+User=alarm
+ExecStart=/usr/bin/minetestserver --gameid mineclone2 --world /home/alarm/.minetest/worlds/world
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+# systemctl start mineclone; sleep 5s; systemctl status mineclone
+  ~ if no errors, enable it
+# systemctl enable mineclone
+
+
+
+</code></pre>
+
+
+</div><div class="individualPost" id="embeddedhtml"><div><a href="#embeddedhtml"><h2>Markup Support!</h2></a>Tuesday, October 25, 2022 at 14:01 EDT</div>
+<a href="https://en.wiktionary.org/wiki/%CA%BBiole_li%CA%BBili%CA%BBi"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Xfce_logo-footprint.svg/176px-Xfce_logo-footprint.svg.png"></a>
+
+embedded html is now supported in the plain text posts
+</div><div class="individualPost" id="forkable"><div><a href="#forkable"><h2>This project is now forkable!</h2></a>Tuesday, October 25, 2022 at 13:08 EDT</div>
+
+
+I have now moved all the non-personal parts of this framework to now be forkable
+
+Introducing li-ili-i
+
+<a href="https://github.com/mai-gh/li-ili-i">https://github.com/mai-gh/li-ili-i</a>
+
+The name liʻiliʻi comes from me searching for other words for minimal.
+
+liʻiliʻi is Hawaiian for tiny.
+
+
+Anyway feel free to fork and start you own micro blog with this, and if you find
+a change that makes this even simpler, feel free to submit a pull request.
+
+Cheers!
+</div><div class="individualPost" id="rewrite"><div><a href="#rewrite"><h2>Project Overhaul</h2></a>Tuesday, October 25, 2022 at 09:13 EDT</div>
+
+I originally designed this blog to retrieve posts via github api / raw links and
+use client side javascript to "fetch" and render them. I changed my mind on this
+approach in favor of commit time injection to create a static site. Ultimately
+this guarantees clients will not have bugs, and the site will load faster, and
+that github api cant gatekeep me. This is accomplished using nodeJS and the
+jsdom library. jsdom makes it easy to manipulate a html file just like you would
+with front-end code, then just save the rusulting html code as a static site.
+
+planned features coming soon:
+
+ - very minimal markup syntax for links and images and possibly videos
+ - stylized subject and dates
+ - a footer ;-P
+ - pagination
+
+I want to keep this "framework" as minimal and tight as possible, so probably
+not much more will be considered, unless it really makes my life easier at
+little to no cost.
+
+Cheers!
+</div><div class="individualPost" id="about"><div><a href="#about"><h2>About this place</h2></a>Monday, October 24, 2022 at 11:47 EDT</div>
+On this blog I will be journaling my developer experience, both professionally,
+and personally. I will be using this space to write about interests, ideas,
+rants, got-yas, hardware &amp; software, and possibly some non techy stuff too.
+
+Stay tuned!
+</div><div class="individualPost" id="helloworld"><div><a href="#helloworld"><h2>Hello World!</h2></a>Monday, October 24, 2022 at 11:41 EDT</div>
+First Post on this ultra minimal blogging setup!
+
+Check out the readme.md in the repo to read about how this blogging software
+was designed and implemented.
+</div></div>
+    
+    <div class="footer">
+      <div>
+        <h5>Assembled with <a href="https://github.com/mai-gh/li-ili-i">liʻiliʻi</a>.</h5>
+      </div>  
+    </div>
+
+  
+
+</body></html>
