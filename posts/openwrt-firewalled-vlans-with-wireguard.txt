@@ -1,0 +1,35 @@
+Openwrt Firewalled VLANs with Wireguard
+Tue Apr 18 05:24:17 PM EDT 2023
+
+
+<pre class='pre-code'>
+$ ssh root@192.168.10.1
+<hr>
+# cd ~
+# tar cvzf config_$(date +%s).tar.gz /etc/config
+# opkg update
+# opkg install wireguard
+# mkdir wireguard_keys
+# cd wireguard_keys
+
+umask go=
+wg genkey | tee wgserver.key | wg pubkey > wgserver.pub
+wg genkey | tee wgclient.key | wg pubkey > wgclient.pub
+wg genpsk > wgclient.psk
+
+
+</pre>
+
+<pre class='pre-code'># vim /etc/config/network
+<hr>
+config 'switch_vlan' 'eth0_1'
+        option 'device' 'eth0'
+        option 'vlan' '1'
+        option 'ports' '5t'
+
+
+</pre>
+
+
+
+To Be Continued ...

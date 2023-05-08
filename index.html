@@ -28,6 +28,11 @@
         white-space: pre;
         width: 80%
       }
+      .pre-code {
+        border: 1px solid;
+        display: inline-block;
+        padding: 10px;
+      }
     </style>
   </head>
   <body>
@@ -39,27 +44,38 @@
       </div>  
     </div>
 
-    <div id="postsList"><div class="individualPost" id="ttttt"><div><a href="#ttttt"><h2>ttttt</h2></a>Wednesday, April 5, 2023 at 18:23 EDT</div>
+    <div id="postsList"><div class="individualPost" id="openwrt-firewalled-vlans-with-wireguard"><div><a href="#openwrt-firewalled-vlans-with-wireguard"><h2>Openwrt Firewalled VLANs with Wireguard</h2></a>Tuesday, April 18, 2023 at 17:24 EDT</div>
 
-sadasd
-asd
-as
-d
-as
-d
-as
-d
-asd
-as
-d
-as
-d
-asd
-as
-d
-as
-d
+<pre class="pre-code">$ ssh root@192.168.10.1
+<hr>
+# cd ~
+# tar cvzf config_$(date +%s).tar.gz /etc/config
+# opkg update
+# opkg install wireguard
+# mkdir wireguard_keys
+# cd wireguard_keys
 
+umask go=
+wg genkey | tee wgserver.key | wg pubkey &gt; wgserver.pub
+wg genkey | tee wgclient.key | wg pubkey &gt; wgclient.pub
+wg genpsk &gt; wgclient.psk
+
+
+</pre>
+
+<pre class="pre-code"># vim /etc/config/network
+<hr>
+config 'switch_vlan' 'eth0_1'
+        option 'device' 'eth0'
+        option 'vlan' '1'
+        option 'ports' '5t'
+
+
+</pre>
+
+
+
+To Be Continued ...
 </div><div class="individualPost" id="openwrt-isolated-guest-ap"><div><a href="#openwrt-isolated-guest-ap"><h2>OpenWRT isolated guest AP setup</h2></a>Saturday, April 1, 2023 at 15:14 EDT</div>
 
 I have a router that runs <a href="https://librecmc.org/">LibreCMC</a> which is
@@ -82,7 +98,7 @@ tar cvzf backup.tgz /etc/config
 
 
 vim /etc/config/network
-<pre style="border: 1px solid; display: inline-block; padding: 10px;">config device 'guest_dev'
+<pre class="pre-code">config device 'guest_dev'
         option type 'bridge'
         option name 'br-guest'
 
@@ -96,7 +112,7 @@ config interface 'guest'
 
 
 vim /etc/config/wireless
-<pre style="border: 1px solid; display: inline-block; padding: 10px;">config wifi-iface 'guest'
+<pre class="pre-code">config wifi-iface 'guest'
         option device 'radio0'
         option mode 'ap'
         option network 'guest'
@@ -108,7 +124,7 @@ vim /etc/config/wireless
 
 
 vim /etc/config/dhcp
-<pre style="border: 1px solid; display: inline-block; padding: 10px;">config dhcp 'guest'
+<pre class="pre-code">config dhcp 'guest'
         option interface 'guest'
         option start '100'
         option limit '150'
@@ -118,7 +134,7 @@ vim /etc/config/dhcp
 
 
 vim /etc/config/firewall
-<pre style="border: 1px solid; display: inline-block; padding: 10px;">config zone 'guest'
+<pre class="pre-code">config zone 'guest'
         option name 'guest'
         option network 'guest'
         option input 'REJECT'
@@ -310,7 +326,7 @@ EOF
 
 
 </div><div class="individualPost" id="embeddedhtml"><div><a href="#embeddedhtml"><h2>Markup Support!</h2></a>Tuesday, October 25, 2022 at 14:01 EDT</div>
-<a href="https://en.wiktionary.org/wiki/%CA%BBiole_li%CA%BBili%CA%BBi"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Xfce_logo-footprint.svg/176px-Xfce_logo-footprint.svg.png"></a>
+<a href="https://en.wiktionary.org/wiki/%CA%BBiole_li%CA%BBili%CA%BBi"><img src="https://upload.wikimedia.org/wikipedia/commons/a/ab/Xfce_logo-footprint.svg" style="background-color:slategrey;padding:20px;"></a>
 
 embedded html is now supported in the plain text posts
 </div><div class="individualPost" id="forkable"><div><a href="#forkable"><h2>This project is now forkable!</h2></a>Tuesday, October 25, 2022 at 13:08 EDT</div>
