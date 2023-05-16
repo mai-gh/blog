@@ -1,0 +1,25 @@
+* {overflow: visible !important;}
+Tue May 16 04:20:21 PM EDT 2023
+
+Have you ever been to a site that tries to prevent you from viewing content by
+disabling your ability to scroll? Its not hard to block elements and faded
+backgrounds with <a href="https://github.com/gorhill/uBlock">ublock-origin</a>.
+
+But you still end up unable to scroll?
+
+Here is a cheap hack, if you use a bookmarks toolbar, you can add a bookmark to
+run a javascript snippet just as if you were to open the developers console and
+run it in there.
+
+And now I present the universal scroll button. Create a new favorite and put it
+on your bookmarks toolbar, name it scroll. Now for the location: put the
+following
+
+<pre class='pre-code'>javascript: (() => { Array.from(document.all).forEach(e => {e.style.setProperty('overflow', 'visible', 'important')}); })();</pre>
+
+This will change the override the css rules that prevent scrolling. YMMV and
+there could also be other css rules that prevent scrolling, or event listeners
+that can interfere as well. When I come across these I will update this post.
+
+Happy Scrolling!
+
