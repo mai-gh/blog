@@ -8,28 +8,111 @@ $ ssh root@192.168.10.1
 # cd ~
 # tar cvzf config_$(date +%s).tar.gz /etc/config
 # opkg update
-# opkg install wireguard
+# opkg install wireguard wireguard-tools
 # mkdir wireguard_keys
 # cd wireguard_keys
+# umask go=
+# wg genkey | tee wgserver.key | wg pubkey > wgserver.pub
+# wg genkey | tee wgclient1.key | wg pubkey > wgclient1.pub
+# wg genkey | tee wgclient2.key | wg pubkey > wgclient2.pub
+# wg genpsk > wgclient1.psk
+# wg genpsk > wgclient2.psk
+</pre>
 
-umask go=
-wg genkey | tee wgserver.key | wg pubkey > wgserver.pub
-wg genkey | tee wgclient.key | wg pubkey > wgclient.pub
-wg genpsk > wgclient.psk
+<pre class='pre-code'># vim /etc/config/firewall
+<hr>
+config zone 'vpn'
+        option name 'vpn'
+        list network 'vpn'
+        option input 'REJECT'
+        option output 'ACCEPT'
+        option forward 'REJECT'
 
+config forwarding
+        option src 'vpn'
+        option dest 'wan'
+
+config rule 'wg'
+        option name 'Allow-WireGuard'
+        option src 'wan'
+        option dest_port '51820'
+        option proto 'udp'
+        option target 'ACCEPT'
+
+config rule
+        option name 'Allow-Ping-wg'
+        option src 'vpn'
+        option proto 'icmp'
+        option icmp_type 'echo-request'
+        option family 'ipv4'
+        option target 'ACCEPT'
+
+config rule
+        option name 'Allow-DNS-wg'
+        option src 'vpn'
+        option proto 'tcp'
+        option dest_port '53'
+        option family 'ipv4'
+        option target 'ACCEPT'
 
 </pre>
 
 <pre class='pre-code'># vim /etc/config/network
 <hr>
-config 'switch_vlan' 'eth0_1'
-        option 'device' 'eth0'
-        option 'vlan' '1'
-        option 'ports' '5t'
+config interface 'vpn'
+        option proto 'wireguard'
+        option private_key '**SRV_KEY**'
+        option listen_port '51820'
+        list addresses '192.168.9.1/24'
+
+config wireguard_vpn 'wgclient'
+        option description '**C1_LABEL**'
+        option public_key '**C1_PUB**'
+        option preshared_key '**C1_PSK**'
+        list allowed_ips '192.168.9.2/32'
+
+config wireguard_vpn 'wgclient'
+        option description '**C2_LABEL**'
+        option public_key '**C2_PUB**'
+        option preshared_key '**C2_PSK**'
+        list allowed_ips '192.168.9.3/32'
+</pre>
 
 
+<pre class='pre-code'># vim /etc/crontabs/root
+<hr>
+* * * * * date -s 2030-01-01; /etc/init.d/sysntpd restart
 </pre>
 
 
 
-To Be Continued ...
+<pre class='pre-code'># vim wg1.conf
+<hr>
+[Interface]
+Address = 192.168.9.2/32
+PrivateKey = **C1_PRIVATEKEY**
+DNS = 192.168.9.1
+
+[Peer]
+PublicKey = **SRV_PUB**
+PresharedKey = **C1_PSK**
+Endpoint = **SRV_IP_OR_DOMAIN**:51820
+AllowedIPs = `0.0.0.0/0
+PersistentKeepalive = 15
+</pre>
+
+<pre class='pre-code'># vim wg2.conf
+<hr>
+[Interface]
+Address = 192.168.9.3/32
+PrivateKey = **C2_PRIVATEKEY**
+DNS = 192.168.9.1
+
+[Peer]
+PublicKey = **SRV_PUB**
+PresharedKey = **C2_PSK**
+Endpoint = **SRV_IP_OR_DOMAIN**:51820
+AllowedIPs = `0.0.0.0/0
+PersistentKeepalive = 15
+</pre>
+
