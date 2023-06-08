@@ -1,6 +1,12 @@
 Openwrt Firewalled VLANs with Wireguard
 Tue Apr 18 05:24:17 PM EDT 2023
 
+In this post I am documenting the most bare bones way to have a wireguard vpn
+hosted on an openwrt or librecmc router. This guide shows how to set up the
+server and how to create configurations for every new user. The vpn zone is
+isolated, for each game or program you run on your normal lan, you'll have to
+open ports in the firewall to allow access,
+
 
 <pre class='pre-code'>
 $ ssh root@192.168.10.1
@@ -54,7 +60,6 @@ config rule
         option dest_port '53'
         option family 'ipv4'
         option target 'ACCEPT'
-
 </pre>
 
 <pre class='pre-code'># vim /etc/config/network
@@ -78,13 +83,10 @@ config wireguard_vpn 'wgclient'
         list allowed_ips '192.168.9.3/32'
 </pre>
 
-
 <pre class='pre-code'># vim /etc/crontabs/root
 <hr>
 * * * * * date -s 2030-01-01; /etc/init.d/sysntpd restart
 </pre>
-
-
 
 <pre class='pre-code'># vim wg1.conf
 <hr>
