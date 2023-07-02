@@ -70,13 +70,13 @@ config interface 'vpn'
         option listen_port '51820'
         list addresses '192.168.9.1/24'
 
-config wireguard_vpn 'wgclient'
+config wireguard_vpn
         option description '**C1_LABEL**'
         option public_key '**C1_PUB**'
         option preshared_key '**C1_PSK**'
         list allowed_ips '192.168.9.2/32'
 
-config wireguard_vpn 'wgclient'
+config wireguard_vpn
         option description '**C2_LABEL**'
         option public_key '**C2_PUB**'
         option preshared_key '**C2_PSK**'
@@ -99,7 +99,7 @@ DNS = 192.168.9.1
 PublicKey = **SRV_PUB**
 PresharedKey = **C1_PSK**
 Endpoint = **SRV_IP_OR_DOMAIN**:51820
-AllowedIPs = `0.0.0.0/0
+AllowedIPs = 0.0.0.0/0
 PersistentKeepalive = 15
 </pre>
 
@@ -114,7 +114,7 @@ DNS = 192.168.9.1
 PublicKey = **SRV_PUB**
 PresharedKey = **C2_PSK**
 Endpoint = **SRV_IP_OR_DOMAIN**:51820
-AllowedIPs = `0.0.0.0/0
+AllowedIPs = 0.0.0.0/0
 PersistentKeepalive = 15
 </pre>
 
