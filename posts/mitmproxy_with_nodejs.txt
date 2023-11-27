@@ -1,0 +1,24 @@
+mitmproxy_with_nodejs
+Mon Nov 27 03:48:01 PM EST 2023
+
+
+
+<a href="#mitmproxy"> you can see how to set up mitmproxy on my previous
+post</a>
+
+
+
+$ npm install https-proxy-agent
+
+
+<pre class='pre-code'>
+const { HttpsProxyAgent } = require('https-proxy-agent');
+process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = 0;
+
+const getResponse = await fetch(url, {
+  agent: proxyAgent,
+});
+</pre>
+
+
+then in your web browser go to: http://127.0.0.1:8081
