@@ -1,0 +1,2 @@
+enable .lan domain suffix support in firefox
+Wed Dec  6 02:27:31 AM EST 2023

@@ -1,0 +1,23 @@
+enable_.lan_domain_suffix_support_in_firefox
+Wed Dec  6 02:30:01 AM EST 2023
+
+
+
+
+
+OpenWRT creates dynamic domain names for its local area network with the domain
+extension <pre>.lan</pre>
+
+when you try to go to one of these in firefox, it thinks you are trying to do a
+search... unless you manually type out the protocol eg <pre>http://neighbor.lan</pre>
+
+the fix is easy, but unfortunately also easy to forget (which is why I'm writing
+this!)
+
+got to about:config
+
+search for <pre>browser.fixup.domainsuffixwhitelist.lan</pre>
+
+it wont exist, add it as boolean type with value true
+
+that's it!
